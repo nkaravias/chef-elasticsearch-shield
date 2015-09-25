@@ -1,0 +1,80 @@
+# DEBUG: Contents of @config hash
+# <%= @config %>
+# Static rendering
+<% rendered =[] %>
+# Static rendering
+JAVA_HOME=/usr/java/latest
+
+# Directory where the Elasticsearch binary distribution resides
+#ES_HOME=/usr/share/elasticsearch
+<%= render(@config, 'ES_HOME', '=','export ') -%><%- rendered << 'ES_HOME' -%>
+# ES HEAP options
+# # Heap Size (defaults to 256m min, 1g max)
+# #ES_HEAP_SIZE=10g
+<%= render(@config, 'ES_HEAP_SIZE', '=','export ') -%><%- rendered << 'ES_HEAP_SIZE' -%>
+#
+# # Heap new generation
+# #ES_HEAP_NEWSIZE=
+<%= render(@config, 'ES_HEAP_NEWSIZE', '=','export ') -%><%- rendered << 'ES_HEAP_NEWSIZE' -%>
+#
+# # max direct memory
+# #ES_DIRECT_SIZE=
+<%= render(@config, 'ES_DIRECT_SIZE', '=', 'export ') -%><%- rendered << 'ES_DIRECT_SIZE' -%>
+#
+# # Additional Java OPTS
+# #ES_JAVA_OPTS=
+export ES_JAVA_OPTS="<%=@config['ES_JAVA_OPTS'].map{ |k,v| "#{k}#{v}"}.join(' ')%>"<%- rendered << 'ES_JAVA_OPTS' -%>
+# ES System options
+# # Maximum number of open files
+# MAX_OPEN_FILES=65535
+<%= render(@config, 'MAX_OPEN_FILES', '=', 'export ') -%><%- rendered << 'MAX_OPEN_FILES' -%>
+#
+# # Maximum amount of locked memory
+# #MAX_LOCKED_MEMORY=
+<%= render(@config, 'MAX_LOCKED_MEMORY', '=', 'export ') -%><%- rendered << 'MAX_LOCKED_MEMORY' -%>
+#
+# # Maximum number of VMA (Virtual Memory Areas) a process can own
+# MAX_MAP_COUNT=262144
+<%= render(@config, 'MAX_MAP_COUNT', '=', 'export ') -%><%- rendered << 'MAX_MAP_COUNT' -%>
+#PID_DIR=
+<%= render(@config, 'PID_DIR', '=', 'export ') -%><%- rendered << 'PID_DIR' -%>
+# # Elasticsearch log directory
+# #LOG_DIR=/var/log/elasticsearch
+# LOG_DIR={{ salt['pillar.get']('elasticsearch:path:logs', False) }}
+#LOG_DIR=
+<%= render(@config, 'LOG_DIR', '=', 'export ') -%><%- rendered << 'LOG_DIR' -%>
+#
+# # Elasticsearch data directory
+# #DATA_DIR=/var/lib/elasticsearch
+# DATA_DIR={{ salt['pillar.get']('elasticsearch:path:data', False) }}
+#DATA_DIR=
+<%= render(@config, 'DATA_DIR', '=', 'export ') -%><%- rendered << 'DATA_DIR' -%>
+#
+# # Elasticsearch work directory
+# #WORK_DIR=/tmp/elasticsearch
+# WORK_DIR={{ salt['pillar.get']('elasticsearch:path:work', False) }}
+<%= render(@config, 'WORK_DIR', '=', 'export ') -%><%- rendered << 'WORK_DIR' -%>
+# # Elasticsearch conf directory
+# CONF_DIR=/etc/elasticsearch
+<%= render(@config, 'CONF_DIR', '=', 'export ') -%><%- rendered << 'CONF_DIR' -%>
+# # Elasticsearch configuration file (elasticsearch.yml)
+# CONF_FILE=/etc/elasticsearch/elasticsearch.yml
+export CONF_FILE=<%=@config['CONF_DIR']%>/elasticsearch.yml
+# # User to run as, change this to a specific elasticsearch user if possible
+ # Also make sure, this user can write into the log directories in case you change them
+# # This setting only works for the init script, but has to be configured separately for systemd startup
+# ES_USER=elasticsearch
+#ES_USER=
+<%= render(@config, 'ES_USER', '=', 'export ') -%><%- rendered << 'ES_USER' -%>
+#ES_GROUP=
+<%= render(@config, 'ES_GROUP', '=', 'export ') -%><%- rendered << 'ES_GROUP' -%>
+#
+# # Configure restart on package upgrade (true, every other setting will lead to not restarting)
+<%= render(@config, 'RESTART_ON_UPGRADE', '=') -%><%- rendered << 'RESTART_ON_UPGRADE' -%>
+
+# Dynamic rendering
+<% @config.each do |k,v| %>
+  <% unless rendered.include?(k) %>
+#<%= render(@config, k) -%>
+  <% end %>
+<% end %> 

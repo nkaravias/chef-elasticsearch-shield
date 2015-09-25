@@ -1,0 +1,5 @@
+#!/bin/sh
+ES_HOME=<%=@es_home%>
+ES_CLASSPATH=$ES_CLASSPATH:$ES_HOME/lib/*:$ES_HOME/lib/sigar/*
+ES_HEAP_SIZE=<%=@es_java_opts['-Xmx']%>
+ES_JAVA_OPTS="<%=@es_java_opts.map{ |k,v| "#{k}#{v}"}.join(' ')%>"
