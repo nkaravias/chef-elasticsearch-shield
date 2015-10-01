@@ -17,6 +17,6 @@ omc_elasticsearch_config 'elasticsearch' do
   action :render
   node_list ['default-oel65-chef-java','node02']
   override_java_opts '-Xmx' => '768m'
-  override_config 'http.port' => 9201
+  override_config '#icecream' => 'rocks'
 end
 

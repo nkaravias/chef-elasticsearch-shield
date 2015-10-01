@@ -75,6 +75,6 @@ export CONF_FILE=<%=@config['CONF_DIR']%>/elasticsearch.yml
 # Dynamic rendering
 <% @config.each do |k,v| %>
   <% unless rendered.include?(k) %>
-#<%= render(@config, k) -%>
+<%= render(@config, k, '=') -%>
   <% end %>
 <% end %> 
