@@ -7,7 +7,8 @@
 <%= render(@config, 'node.max_local_storage_nodes').strip -%><%- rendered << 'node.max_local_storage_nodes'  -%>
 <%= render(@config, 'http.port').strip -%><%- rendered << 'http.port'  -%>
 <%= render(@config, 'transport.tcp.port').strip -%><%- rendered << 'transport.tcp.port'  -%>
-<%= render(@config, 'network.host').strip -%><%- rendered << 'network.host'  -%>
+<%= render(@config, 'network.bind_host').strip -%><%- rendered << 'network.bind_host'  -%>
+<%= render(@config, 'network.publish_host').strip -%><%- rendered << 'network.publish_host'  -%>
 <%= render(@config, 'discovery.zen.ping.multicast.enabled').strip -%><%- rendered << 'discovery.zen.ping.multicast.enabled'  -%>
 <%= render(@config, 'discovery.zen.ping.unicast.hosts').strip -%><%- rendered << 'discovery.zen.ping.unicast.hosts'  -%>
 <%= render(@config, 'discovery.zen.minimum_master_nodes').strip -%><%- rendered << 'discovery.zen.minimum_master_nodes'  -%>

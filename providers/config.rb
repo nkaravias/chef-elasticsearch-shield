@@ -75,7 +75,8 @@ action :render do
   # Add global attributes
   default_config['cluster.name']=new_resource.cluster_name
   default_config['node.name']=new_resource.node_name
-  default_config['network.host']=new_resource.ip
+  default_config['network.bind_host']=new_resource.bind_ip
+  default_config['network.publish_host']=new_resource.publish_ip
   #default_config['discovery.zen.ping.unicast.hosts']=new_resource.node_list
   default_config['path.conf']=new_resource.config_path
   default_config['path.data']=new_resource.data_path
@@ -129,7 +130,8 @@ def load_current_resource
   @current_resource.cluster_name(@new_resource.cluster_name)
   @current_resource.node_name(@new_resource.node_name)
   #@current_resource.node_list(@new_resource.node_list)
-  @current_resource.ip(@new_resource.ip)
+  @current_resource.bind_ip(@new_resource.bind_ip)
+  @current_resource.publish_ip(@new_resource.publish_ip)
   @current_resource.elasticsearch_data_bag_info(@new_resource.elasticsearch_data_bag_info)
   @current_resource.work_path(@new_resource.work_path)
   @current_resource.data_path(@new_resource.data_path)
