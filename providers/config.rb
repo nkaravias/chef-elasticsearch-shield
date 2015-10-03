@@ -81,6 +81,8 @@ action :render do
   default_config['path.data']=new_resource.data_path
   default_config['path.log']=new_resource.log_path
   
+  default_config['http.port']=new_resource.http_port
+  default_config['transport.tcp.port']=new_resource.transport_port
   #merged_configuration = default_config.merge(new_resource.override_config)
   # Write checks after the merge... to make sure globals aren't overriden...
   # ^ fix this
@@ -134,6 +136,8 @@ def load_current_resource
   @current_resource.log_path(@new_resource.log_path)
   @current_resource.config_path(@new_resource.config_path)
   @current_resource.pid_path(@new_resource.pid_path)
+  @current_resource.http_port(@new_resource.http_port)
+  @current_resource.transport_port(@new_resource.transport_port)
   @current_resource.java_opts(@new_resource.java_opts)
   @current_resource.override_java_opts(@new_resource.override_java_opts)
   #@current_resource.es_mem_opts(@new_resource.es_mem_opts)

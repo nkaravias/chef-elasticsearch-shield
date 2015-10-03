@@ -14,6 +14,9 @@ attribute :log_path, :kind_of => String, default: lazy { |r| ::File.join('/scrat
 attribute :config_path, :kind_of => String, default: "/etc/elasticsearch"
 attribute :pid_path, :kind_of => String, default: "/var/run/elasticsearch"
 
+attribute :http_port, :kind_of => Integer, default: 9200
+attribute :transport_port, :kind_of => Integer, default: 9300
+
 attribute :node_name, :kind_of => String, default: lazy { node.hostname }
 attribute :ip, :kind_of => String, default: lazy { node[:ipaddress] }
 #attribute :node_list, :kind_of => Array, required: true
@@ -60,7 +63,6 @@ attribute(:default_config, kind_of: Hash, default: {
   'discovery.zen.ping.unicast.hosts' => '[]',
   'discovery.zen.minimum_master_nodes' => 1,
   'gateway.expected_nodes' => 1,
-  'http.port' => 9200
 })
 # Override
 attribute(:override_config, kind_of: Hash, default: {})

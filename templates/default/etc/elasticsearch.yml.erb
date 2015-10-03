@@ -6,6 +6,7 @@
 <%= render(@config, 'node.name').strip -%><%- rendered << 'node.name'  -%>
 <%= render(@config, 'node.max_local_storage_nodes').strip -%><%- rendered << 'node.max_local_storage_nodes'  -%>
 <%= render(@config, 'http.port').strip -%><%- rendered << 'http.port'  -%>
+<%= render(@config, 'transport.tcp.port').strip -%><%- rendered << 'transport.tcp.port'  -%>
 <%= render(@config, 'network.host').strip -%><%- rendered << 'network.host'  -%>
 <%= render(@config, 'discovery.zen.ping.multicast.enabled').strip -%><%- rendered << 'discovery.zen.ping.multicast.enabled'  -%>
 <%= render(@config, 'discovery.zen.ping.unicast.hosts').strip -%><%- rendered << 'discovery.zen.ping.unicast.hosts'  -%>
