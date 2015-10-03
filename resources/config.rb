@@ -16,7 +16,9 @@ attribute :pid_path, :kind_of => String, default: "/var/run/elasticsearch"
 
 attribute :node_name, :kind_of => String, default: lazy { node.hostname }
 attribute :ip, :kind_of => String, default: lazy { node[:ipaddress] }
-attribute :node_list, :kind_of => Array, required: true
+#attribute :node_list, :kind_of => Array, required: true
+
+attribute(:elasticsearch_data_bag_info, kind_of: Hash,   required: true)
 
 attribute(:java_opts, kind_of: Hash, default: {
 '-Xmx' => '512m',

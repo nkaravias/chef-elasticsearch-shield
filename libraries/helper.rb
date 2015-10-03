@@ -11,5 +11,12 @@ module Elasticsearch
         return nil
       end
     end
+
+    def get_active_host_hash(databag)
+      hosts = databag['hosts']
+      active_ensemble = hosts.reject { |c| c['status'] != 'ACTIVE' }.map { |host| host['hostname'] }
+    end
+
+
   end
 end
