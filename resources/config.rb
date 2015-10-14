@@ -17,9 +17,9 @@ attribute :pid_path, :kind_of => String, default: "/var/run/elasticsearch"
 attribute :http_port, :kind_of => Integer, default: 9200
 attribute :transport_port, :kind_of => Integer, default: 9300
 
-attribute :node_name, :kind_of => String, default: lazy { node.hostname }
-attribute :bind_ip, :kind_of => String, default: lazy { node[:ipaddress] }
-attribute :publish_ip, :kind_of => String, default: lazy { node[:ipaddress] }
+attribute :node_name, :kind_of => String, default: lazy { node['hostname'] }
+attribute :bind_ip, :kind_of => String, default: lazy { node['ipaddress'] }
+attribute :publish_ip, :kind_of => String, default: lazy { node['ipaddress'] }
 
 attribute(:elasticsearch_data_bag_info, kind_of: Hash,   required: true)
 

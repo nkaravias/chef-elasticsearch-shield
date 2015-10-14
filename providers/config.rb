@@ -92,6 +92,9 @@ action :render do
     notifies :enable,"service[elasticsearch]"
     notifies :restart,"service[elasticsearch]"
   end
+
+  # state has changed - notify 
+  new_resource.updated_by_last_action(true)
 end
 
 def load_current_resource

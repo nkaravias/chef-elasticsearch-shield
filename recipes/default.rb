@@ -37,7 +37,7 @@ omc_elasticsearch_config 'elasticsearch' do
   pid_path '/var/run/elasticsearch'
   #http_port 9200
   #transport_port 9300
-  node_name node.fqdn.downcase
+  node_name node['fqdn'].downcase
   bind_ip '0.0.0.0'
   publish_ip '0.0.0.0'
   action :render
