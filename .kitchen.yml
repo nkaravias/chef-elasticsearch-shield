@@ -11,7 +11,7 @@ platforms:
   - name: oel65-chef-java
 
 suites:
-  - name: default_node_install_render
+  - name: default
     data_bags_path: "test/integration/data_bags"
     run_list:
       - recipe[omc_elasticsearch::default]

@@ -1,8 +1,8 @@
 # omc_elasticsearch Cookbook
 
 Installs and configures an elasticsearch cluster node. The cookbook follows the library pattern and exposes two custom resources (LWRP):
-* omc_elasticsearch_node
-* omc_elasticsearch_config
+* omc_elasticsearch_node (Installs an elasticsearch node)
+* omc_elasticsearch_config (Configures the node to be part of a cluster and starts the ES service)
 
 ## Requirements
 
@@ -13,8 +13,8 @@ Third party cookbook dependencies:
 ## Attributes
 
 There are no attributes on a library cookbook. The following resource attributes can get overridden by a wrapper cookbook or an environment / role:
-
-  version [String] package release version
+```
+  version [String] package release version 
   base_url [String] yum repository url
   gpgkey_url [String] yum repository gpg key url
   cluster_name [String]
@@ -36,7 +36,7 @@ There are no attributes on a library cookbook. The following resource attributes
   override_config [Hash] Override for default ES configuration values
   default_sysconfig [Hash] Default ES sysconfig values
   override_sysconfig [Hash] Override for sysconfig ES values
-
+``` 
 In regards to various configuration values (sysconfig, java_opts, config) this resource is using generic default values for each use case (e.g default_sysconfig hash). If you simply need to change one of the default values there's two options:
 * Override the whole default_sysconfig hash.
 * Simply add a new key on the override_sysconfig hash.
