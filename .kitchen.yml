@@ -5,15 +5,14 @@ driver:
 
 provisioner:
   name: chef_zero
-  #require_chef_omnibus: 11.16.4
-  #http_proxy: http://www-proxy.us.oracle.com:80
-  #https_proxy: http://www-proxy.us.oracle.com:80
+  require_chef_omnibus: 11.16.4
 
 platforms:
   - name: oel65-chef-java
 
 suites:
-  - name: default
+  - name: default_node_install_render
+    data_bags_path: "test/integration/data_bags"
     run_list:
       - recipe[omc_elasticsearch::default]
     attributes:

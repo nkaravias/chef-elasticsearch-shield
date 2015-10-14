@@ -20,7 +20,6 @@ attribute :transport_port, :kind_of => Integer, default: 9300
 attribute :node_name, :kind_of => String, default: lazy { node.hostname }
 attribute :bind_ip, :kind_of => String, default: lazy { node[:ipaddress] }
 attribute :publish_ip, :kind_of => String, default: lazy { node[:ipaddress] }
-#attribute :node_list, :kind_of => Array, required: true
 
 attribute(:elasticsearch_data_bag_info, kind_of: Hash,   required: true)
 
@@ -44,8 +43,6 @@ attribute(:override_java_opts, kind_of: Hash, default: {})
 ### Sysconfig attributes for ES
 # Default
 attribute(:default_sysconfig, kind_of: Hash, default: {
-#'ES_HEAP_NEWSIZE' => '',
-#'ES_DIRECT_SIZE' => '',
 'ES_RESTART_ON_UPGRADE' => true,
 'ES_GC_LOG_FILE'=> '/var/log/elasticsearch/gc.log',
 'MAX_OPEN_FILES' => '65535',
@@ -59,11 +56,10 @@ attribute(:override_sysconfig, kind_of: Hash, default: {})
 attribute(:default_config, kind_of: Hash, default: {
   'action.destructive_requires_name' => true,
   'node.max_local_storage_nodes' => 1,
-  'network.host' => '',
   'discovery.zen.ping.multicast.enabled' => false,
   'discovery.zen.ping.unicast.hosts' => '[]',
   'discovery.zen.minimum_master_nodes' => 1,
-  'gateway.expected_nodes' => 1,
+  'gateway.expected_nodes' => 1
 })
 # Override
 attribute(:override_config, kind_of: Hash, default: {})

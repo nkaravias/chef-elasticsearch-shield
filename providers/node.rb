@@ -49,27 +49,6 @@ def create_directory(path,es_owner,es_group)
   end
 end
 
-=begin
-action :configure do
-  service 'elasticsearch' do
-    supports :restart => true, :start => true, :stop => true, :reload => true
-    action :nothing
-  end
-
-  template "Init.d script for elasticsearch do
-    path '/etc/init.d/elasticsearch'
-    source 'etc/initd/elasticsearch.erb'
-    owner new_resource.user
-    group new_resource.group
-    mode '0755'
-    cookbook 'omc_elasticsearch'
-    notifies :enable, "service[#{new_resource.service_name}]"
-    notifies :start, "service[#{new_resource.service_name}]"
-    variables( :install_dir => new_resource.install_path, :data_dir => new_resource.data_path, :log_dir => new_resource.log_path, :config_dir => new_resource.config_path)
-  end
-end
-=end
-
 def load_current_resource
   @current_resource = Chef::Resource::OmcElasticsearchNode.new(@new_resource.name)
   @current_resource.user(@new_resource.user)

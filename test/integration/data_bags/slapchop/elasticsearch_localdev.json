@@ -1,0 +1,6 @@
+{
+ "id": "elasticsearch_localdev",
+ "environment": "localdev",
+ "use": "slapchop",
+ "hosts": [ { "id": 1, "hostname": "default-oel65-chef-java" , "status": "ACTIVE"},{ "id":2, "hostname": "test02" , "status": "INACTIVE"},{ "id":3, "hostname": "test03" , "status": "INACTIVE"}]
+}
