@@ -10,11 +10,41 @@ Third party cookbook dependencies:
 * yum (https://supermarket.chef.io/cookbooks/yum)
 * java (https://supermarket.chef.io/cookbooks/java)
 
+# Data bags:
+* All elasticsearch nodes much get added to the data bag item that gets passed to the omc_elasticsearch_config resource as the elasticsearch_data_bag_info hash attribute. The data bag item should look like this:
+```json
+{
+ "id": "elasticsearch_localdev",
+ "environment": "localdev",
+ "use": "slapchop",
+ "hosts": [{ "id": 1, "hostname": "default-oel65-chef-java", "status": "ACTIVE" },{ "id":2, "hostname": "test02" , "status": "DECOMISSIONED" },{ "id":3, "hostname": "test03" , "status": "DECOMISSIONED" }]
+}
+```
+Short breakdown of the hosts hash contents and usage:
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Value description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>A unique identifier (int) for each node</td>
+  </tr>
+  <tr>
+    <td>hostname</td>
+    <td>The FQDN of the elasticsearch node</td>
+  </tr>
+  <tr>
+    <td>Status</td>
+    <td>The state of the elasticsearch node. If it is a member of a live cluster then the value should be ACTIVE. In any other case set to any string but ACTIVE, e.g DECOMISSIONED, INVALID. When adding a net new node you should never be using the same myid</td>
+  </tr>
+</table>
+
 ## Attributes
 
 There are no attributes on a library cookbook. The following resource attributes can get overridden by a wrapper cookbook or an environment / role:
 ```
-  version [String] package release version 
+  version [String] package release version
   base_url [String] yum repository url
   gpgkey_url [String] yum repository gpg key url
   cluster_name [String]
@@ -36,7 +66,7 @@ There are no attributes on a library cookbook. The following resource attributes
   override_config [Hash] Override for default ES configuration values
   default_sysconfig [Hash] Default ES sysconfig values
   override_sysconfig [Hash] Override for sysconfig ES values
-``` 
+```
 In regards to various configuration values (sysconfig, java_opts, config) this resource is using generic default values for each use case (e.g default_sysconfig hash). If you simply need to change one of the default values there's two options:
 * Override the whole default_sysconfig hash.
 * Simply add a new key on the override_sysconfig hash.
