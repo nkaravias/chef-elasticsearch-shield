@@ -5,20 +5,56 @@ driver:
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: 11.16.4
 
 platforms:
-  - name: oel65-chef-java
+platforms:
+  - name: chef11
+    driver:
+      box: oel65-chef-java
+    provisioner:
+      require_chef_omnubus: 11.16.4
+  - name: chef12
+    driver:
+      box: oel65-chef-java
+    provisioner:
+      require_chef_omnubus: 12.4.1
+
 
 suites:
   - name: default
+    driver:
+      vm_hostname: default-oel65-chef-java
     data_bags_path: "test/integration/data_bags"
     run_list:
-      - recipe[omc_elasticsearch::default]
+      - recipe[omc_elasticsearch_test::default]
+      - recipe[test-helper::default]
     attributes:
       java:
          install_flavor: 'oracle'
          jdk_version: '8'
          oracle:
            accept_oracle_download_terms: true
-
+      omc_elasticsearch:
+            home: '/opt/elasticsearch_home'
+            version: '1.7.1-1'
+            base_url: 'http://packages.elasticsearch.org/elasticsearch/1.7/centos'
+            gpgkey_url: 'https://packages.elasticsearch.org/GPG-KEY-elasticsearch'
+            cluster_name: 'omc-eventstore-localdev'
+            install_path: '/usr/share/elasticsearch'
+            data_path: '/data/omc-eventstore-localdev/data'
+            log_path: '/data/omc-eventstore-localdev/log'
+            work_path: '/data/omc-eventstore-localdev/work'
+            config_path: '/etc/elasticsearch'
+            pid_path: '/var/run/elasticsearch'
+            transport_port: 9300
+            http_port: 9200
+            publish_ip: '0.0.0.0'
+            bind_ip: '0.0.0.0'
+            elasticsearch_data_bag_info:
+               slapchop: 'elasticsearch_localdev'
+            override_java_opts:
+                 -Xmx: '799m'
+                 -Xms: '600m'
+                 -Xss: '256k'
+            override_sysconfig: { ES_RESTART_ON_UPGRADE: false }
+            override_config: {}

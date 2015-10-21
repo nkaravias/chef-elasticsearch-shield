@@ -2,24 +2,33 @@
 
 require 'spec_helper'
 
-describe user('elasticsearch') do
-  it { should belong_to_group 'elasticsearch' }
-  it { should have_home_directory '/scratch/elasticsearch_home' }
-end
+$node['omc_elasticsearch'].tap do |es|
 
-cluster_name = 'omc-eventstore-localdev'
-install_path = '/usr/share/elasticsearch'
-es_dirs = {'config_path' => '/etc/elasticsearch','data_path' => File.join('/scratch',cluster_name,'data'),'log_path' => File.join('/scratch',cluster_name,'data'),'work_path' => File.join('/scratch',cluster_name,'data'), 'pid_path' => '/var/run/elasticsearch'}
-
-es_files = {'config.yml' => '/etc/elasticsearch/elasticsearch.yml', 'sysconfig' => '/etc/sysconfig/elasticsearch', 'initd' => '/etc/init.d/elasticsearch', 'bin.sh' => File.join(install_path,'bin/elasticsearch.in.sh')}
-
-es_dirs.each do |k,v|
-  describe file(v) do
-    it { should be_directory }
-    it { should be_owned_by 'elasticsearch' }
-    it { should be_grouped_into 'elasticsearch' }
+  describe user('elasticsearch') do
+    it { should belong_to_group 'elasticsearch' }
+    it { should have_home_directory es['home'] }
   end
-end
+
+  es_dirs = {
+  'data_path' => es['data_path'],
+  'log_path' => es['log_path'],
+  'work_path' => es['work_path'],
+  'pid_path' => es['pid_path']
+  }
+
+  es_files = { 'config.yml' => '/etc/elasticsearch/elasticsearch.yml',
+    'sysconfig' => '/etc/sysconfig/elasticsearch',
+    'initd' => '/etc/init.d/elasticsearch',
+    'bin.sh' => File.join(es['install_path'], 'bin/elasticsearch.in.sh') }
+
+
+  es_dirs.each do |k,v|
+     describe file(v) do
+      it { should be_directory }
+      it { should be_owned_by 'elasticsearch' }
+      it { should be_grouped_into 'elasticsearch' }
+    end
+  end
 
 es_files.each do |k,v|
   describe file(v) do
@@ -34,8 +43,10 @@ describe service('elasticsearch') do
   it { should be_running   }
 end
 
-[ 9200, 9300 ].each do |port|
+[ es['transport_port'], es['http_port'] ].each do |port|
   describe port(port) do
     it { should be_listening }
   end
+end
+
 end
