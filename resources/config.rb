@@ -7,6 +7,7 @@ attribute :group, :kind_of => String, default: 'elasticsearch'
 #
 attribute :install_path, :kind_of => String, default: '/usr/share/elasticsearch'
 # # ES Config
+attribute :version, kind_of: String, required: true
 attribute :cluster_name, :kind_of => String, default: 'omc-eventstore-localdev'
 attribute :work_path, :kind_of => String, default: lazy { |r| ::File.join('/scratch', r.cluster_name, 'work') }
 attribute :data_path, :kind_of => String, default: lazy { |r| ::File.join('/scratch', r.cluster_name, 'data') }

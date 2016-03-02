@@ -41,7 +41,7 @@ export ES_JAVA_OPTS="<%=@config['ES_JAVA_OPTS'].map{ |k,v| "#{k}#{v}"}.join(' ')
 # # Elasticsearch conf directory
 <%= render(@config, 'CONF_DIR', '=', 'export ') -%><%- rendered << 'CONF_DIR' -%>
 # # Elasticsearch configuration file (elasticsearch.yml)
-export CONF_FILE=<%=@config['CONF_DIR']%>/elasticsearch.yml
+#export CONF_FILE=<%=@config['CONF_DIR']%>/elasticsearch.yml
 # # User to run as, change this to a specific elasticsearch user if possible
  # Also make sure, this user can write into the log directories in case you change them
 # # This setting only works for the init script, but has to be configured separately for systemd startup
@@ -54,6 +54,6 @@ export CONF_FILE=<%=@config['CONF_DIR']%>/elasticsearch.yml
 # Dynamic rendering
 <% @config.each do |k,v| %>
   <% unless rendered.include?(k) %>
-<%= render(@config, k, '=') -%>
+export <%= render(@config, k, '=') -%>
   <% end %>
 <% end %> 

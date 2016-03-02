@@ -18,6 +18,7 @@ end
 omc_elasticsearch_config 'elasticsearch' do
   action :render
   cluster_name node[:omc_elasticsearch][:cluster_name]
+  version node[:omc_elasticsearch][:version]
   install_path node[:omc_elasticsearch][:install_path]
   config_path node[:omc_elasticsearch][:config_path]
   data_path node[:omc_elasticsearch][:data_path]

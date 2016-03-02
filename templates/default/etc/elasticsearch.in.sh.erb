@@ -1,6 +1,6 @@
 #!/bin/sh
 # This file is managed by CHEF. DO NOT edit manually
 ES_HOME=<%=@es_home%>
-ES_CLASSPATH=$ES_CLASSPATH:$ES_HOME/lib/*:$ES_HOME/lib/sigar/*
+ES_CLASSPATH="$ES_HOME/lib/elasticsearch-<%=@es_version.match(/^\d{1,2}\.\d{1,2}.\d{1,2}/)%>.jar:$ES_HOME/lib/*"
 ES_HEAP_SIZE=<%=@es_java_opts['-Xmx']%>
 ES_JAVA_OPTS="<%=@es_java_opts.map{ |k,v| "#{k}#{v}"}.join(' ')%>"

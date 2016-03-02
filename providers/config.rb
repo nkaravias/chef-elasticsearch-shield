@@ -47,7 +47,7 @@ action :render do
     mode '0644'
     cookbook 'omc_elasticsearch'
     helpers(Elasticsearch::EsHelper)
-    variables(:es_home => default_sysconfig['ES_HOME'], :es_java_opts => default_sysconfig['ES_JAVA_OPTS'])
+    variables(:es_home => default_sysconfig['ES_HOME'], :es_java_opts => default_sysconfig['ES_JAVA_OPTS'], :es_version => new_resource.version)
     notifies :enable,"service[elasticsearch]"
     notifies :restart,"service[elasticsearch]"
   end

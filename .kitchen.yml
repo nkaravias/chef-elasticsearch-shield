@@ -36,8 +36,8 @@ suites:
            accept_oracle_download_terms: true
       omc_elasticsearch:
             home: '/opt/elasticsearch_home'
-            version: '1.7.1-1'
-            base_url: 'http://packages.elasticsearch.org/elasticsearch/1.7/centos'
+            version: '2.2.0-1'
+            base_url: 'http://packages.elasticsearch.org/elasticsearch/2.x/centos'
             gpgkey_url: 'https://packages.elasticsearch.org/GPG-KEY-elasticsearch'
             cluster_name: 'omc-eventstore-localdev'
             install_path: '/usr/share/elasticsearch'
@@ -56,5 +56,12 @@ suites:
                  -Xmx: '799m'
                  -Xms: '600m'
                  -Xss: '256k'
+                 -XX:+PrintGCDetails: ''
+                 -XX:+PrintGCTimeStamps : ''
+                 -XX:+PrintGCDateStamps : ''
+                 -XX:+PrintClassHistogram : ''
+                 -XX:+PrintTenuringDistribution : ''
+                 -XX:+PrintGCApplicationStoppedTime : ''
+                 -Xloggc:$ES_GC_LOG_FILE : ''
             override_sysconfig: { ES_RESTART_ON_UPGRADE: false }
             override_config: {}
