@@ -37,6 +37,16 @@ action :install do
     version version
     action :install
   end
+
+  [ new_resource.config_path, new_resource.install_path ].each do |dir|
+    execute "Change ownership to #{new_resource.user}:#{new_resource.group} on #{dir}" do
+      command "chown -Rf #{new_resource.user}:#{new_resource.group} #{dir}"
+      only_if { Etc.getpwuid(::File.stat(dir).uid).name != "new_resource.user" }
+      subscribes :run, "yum_package[elasticsearch]", :immediately
+      action :nothing
+    end
+  end
+
 end
 
 def create_directory(path,es_owner,es_group)
