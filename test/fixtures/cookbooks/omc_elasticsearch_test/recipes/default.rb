@@ -36,6 +36,32 @@ omc_elasticsearch_config 'elasticsearch' do
   override_sysconfig node[:omc_elasticsearch][:override_sysconfig]
 end
 
+node[:omc_elasticsearch][:plugins].each do |plugin|
+  omc_elasticsearch_plugin plugin['name'] do 
+    action :install
+    es_home node[:omc_elasticsearch][:install_path]
+    uri plugin['uri']
+    arguments plugin['arguments']
+  end
+end
+
+=begin
+omc_elasticsearch_plugin 'kopf' do
+  action :install
+  es_home node[:omc_elasticsearch][:install_path]
+  uri 'lmenezes/elasticsearch-kopf/master'
+  #arguments '-DproxyHost=www-proxy.us.oracle.com -DproxyPort=80 --verbose'
+  arguments 'DproxyHost' => 'www-proxy.us.oracle.com', 'DproxyPort'=>'80', '-verbose' => '' 
+end
+
+omc_elasticsearch_plugin 'kopf' do
+  action :uninstall
+  es_home node[:omc_elasticsearch][:install_path]
+  uri 'lmenezes/elasticsearch-kopf/master'
+  #arguments '-DproxyHost=www-proxy.us.oracle.com -DproxyPort=80 --verbose'
+  #arguments 'DproxyHost' => 'www-proxy.us.oracle.com', 'DproxyPort'=>'80', '-verbose' => '' 
+end
+=end
 =begin
 omc_elasticsearch_config 'elasticsearch' do
 #  user 'elasticsearch'

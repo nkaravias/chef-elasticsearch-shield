@@ -65,3 +65,4 @@ suites:
                  -Xloggc:$ES_GC_LOG_FILE : ''
             override_sysconfig: { ES_RESTART_ON_UPGRADE: false }
             override_config: {}
+            plugins: [{'name': 'kopf', 'uri': 'lmenezes/elasticsearch-kopf/master', 'arguments':{'DproxyHost':'www-proxy.us.oracle.com', 'DproxyPort':'80', '-verbose': ''}},{'name': 'license', 'uri': 'license', 'arguments':{'DproxyHost':'www-proxy.us.oracle.com', 'DproxyPort':'80', '-verbose': ''}},{'name': 'shield', 'uri': 'shield', 'arguments':{'DproxyHost':'www-proxy.us.oracle.com', 'DproxyPort':'80', '-verbose': ''}}]
