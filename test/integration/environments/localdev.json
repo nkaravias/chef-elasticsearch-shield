@@ -1,0 +1,73 @@
+{
+  "name": "localdev",
+  "description": "Kitchen CI local environment",
+  "cookbook_versions": {
+
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "java": {
+       "install_flavor": "oracle",
+       "jdk_version": "8",
+       "oracle": {
+          "accept_oracle_download_terms": true
+       }
+    },
+"omc_elasticsearch": {
+  "home": "/opt/elasticsearch_home",
+  "version": "2.2.0-1",
+  "base_url": "http://packages.elasticsearch.org/elasticsearch/2.x/centos",
+  "gpgkey_url": "https://packages.elasticsearch.org/GPG-KEY-elasticsearch",
+  "cluster_name": "omc-eventstore-localdev",
+  "install_path": "/usr/share/elasticsearch",
+  "data_path": "/data/omc-eventstore-localdev/data",
+  "log_path": "/data/omc-eventstore-localdev/log",
+  "work_path": "/data/omc-eventstore-localdev/work",
+  "config_path": "/etc/elasticsearch",
+  "pid_path": "/var/run/elasticsearch",
+  "transport_port": 9300,
+  "http_port": 9200,
+  "publish_ip": "0.0.0.0",
+  "bind_ip": "0.0.0.0",
+  "elasticsearch_data_bag_info": {
+    "slapchop": "elasticsearch_localdev"
+  },
+  "override_java_opts": {
+"-Xmx":"799m",
+"-Xms":"600m",
+"-Xss":"256k",
+"-XX:+PrintGCDetails" : "",
+"-XX:+PrintGCTimeStamps" : "",
+"-XX:+PrintGCDateStamps" : "",
+"-XX:+PrintClassHistogram" : "",
+"-XX:+PrintTenuringDistribution" : "",
+"-XX:+PrintGCApplicationStoppedTime" : "",
+"-Xloggc:$ES_GC_LOG_FILE" : ""},
+  "override_sysconfig": { "ES_RESTART_ON_UPGRADE": false, "ES_GC_LOG_FILE": "/data/omc-eventstore-localdev/log/gc.log" },
+  "override_config": {},
+  "plugins": [
+{
+  "name": "kopf",
+  "uri": "lmenezes/elasticsearch-kopf/master",
+  "arguments": { "DproxyHost": "www-proxy.us.oracle.com", "DproxyPort":"80", "-verbose": ""}
+},
+{
+  "name": "license",
+  "uri": "license",
+  "arguments": { "DproxyHost": "www-proxy.us.oracle.com", "DproxyPort":"80", "-verbose": ""}
+},
+{
+  "name": "shield",
+  "uri": "shield",
+  "arguments": { "DproxyHost": "www-proxy.us.oracle.com", "DproxyPort":"80", "-verbose": ""},
+  "shield_credential_dbag_info": { "passwords":"slapchop_shield_localdev" }
+}
+  ]
+}
+
+  },
+  "override_attributes": {
+
+  }
+}

@@ -11,7 +11,7 @@ action :install do
     not_if { plugin_installed?(new_resource.name, new_resource.es_home) }
   end
   # state has changed - notify 
-  new_resource.updated_by_last_action(true)
+  #new_resource.updated_by_last_action(true)
 end
 
 action :uninstall do
@@ -22,7 +22,7 @@ action :uninstall do
     group new_resource.user
   only_if { plugin_installed?(new_resource.name, new_resource.es_home) }
   # state has changed - notify 
-  new_resource.updated_by_last_action(true)
+  # new_resource.updated_by_last_action(true)
   end
 end
 
