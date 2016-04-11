@@ -34,6 +34,8 @@ end
 ---
 <% if proxy_running? %>
 driver:
+#  http_proxy: 'http://www-proxy.us.oracle.com:80'
+#  https_proxy: 'http://www-proxy.us.oracle.com:80'
   http_proxy: 'http://den00bjg.us.oracle.com:8124'
   https_proxy: 'http://den00bjg.us.oracle.com:8124'
   # used in kitchen-docker to pre-install/cache a Chef Ommnibus package in a
@@ -45,6 +47,8 @@ provisioner:
   #         # http_proxy, and yes, this is a bit evil
   chef_omnibus_url: http://www.chef.io/chef/install.sh
   client_rb:   
+#    http_proxy: 'http://www-proxy.us.oracle.com:80'
+#    https_proxy: 'http://www-proxy.us.oracle.com:80'
     http_proxy: 'http://den00bjg.us.oracle.com:8124'
     https_proxy: 'http://den00bjg.us.oracle.com:8124'
     no_proxy: localhost,127.0.0.1

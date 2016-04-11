@@ -64,3 +64,8 @@ attribute(:default_config, kind_of: Hash, default: {
 })
 # Override
 attribute(:override_config, kind_of: Hash, default: {})
+
+# Plugin data - array of hashes
+attribute :plugin_data, :kind_of => Array, default: []
+
+

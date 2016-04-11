@@ -1,0 +1,15 @@
+{
+  "id": "slapchop_localdev",
+  "shield.ssl.keystore.password": {
+    "encrypted_data": "AwMTdvTLK5KTETVz2bd66OTU8dn34HGybXSquRHZuos=\n",
+    "iv": "KD/4DU1iR9+eleHx6ojaBw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "shield.ssl.keystore.key_password": {
+    "encrypted_data": "BflBcQaybrbUPjA4wRUamT1gEBnofOEm1kCbjw/H6J0=\n",
+    "iv": "U9Act9lwbu6YyBGPHraarQ==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}

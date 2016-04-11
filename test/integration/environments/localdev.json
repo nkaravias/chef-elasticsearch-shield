@@ -61,7 +61,21 @@
   "name": "shield",
   "uri": "shield",
   "arguments": { "DproxyHost": "www-proxy.us.oracle.com", "DproxyPort":"80", "-verbose": ""},
-  "shield_credential_dbag_info": { "passwords":"slapchop_shield_localdev" }
+  "shield_dbag_info": { "passwords":"slapchop_localdev" },
+  "es_yml_opts": {
+"#shield.authc.realms.active_directory.type": "active_directory",
+"#shield.authc.realms.active_directory.order": 0,
+"#shield.authc.realms.active_directory.domain_name": "elqrd.local",
+"#shield.authc.realms.active_directory.url": "ldap://ad01-den3.elqrd.local:389",
+"shield.ssl.keystore.path": "shield/server.keystore",
+"shield.ssl.hostname_verification": false,
+"shield.ssl.keystore.password": "",
+"shield.ssl.keystore.key_password": "",
+"shield.transport.ssl": false,
+"shield.transport.ssl": true,
+"shield.http.ssl": true,
+"shield.enabled": true
+  }
 }
   ]
 }

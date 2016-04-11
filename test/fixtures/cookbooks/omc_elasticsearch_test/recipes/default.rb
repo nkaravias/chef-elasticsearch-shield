@@ -34,6 +34,7 @@ omc_elasticsearch_config 'elasticsearch' do
   override_java_opts node[:omc_elasticsearch][:override_java_opts]
   override_config node[:omc_elasticsearch][:override_config]
   override_sysconfig node[:omc_elasticsearch][:override_sysconfig]
+  plugin_data node[:omc_elasticsearch][:plugins]
 end
 
 node[:omc_elasticsearch][:plugins].each do |plugin|

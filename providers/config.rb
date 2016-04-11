@@ -5,6 +5,13 @@ action :render do
     supports :restart => true, :start => true, :stop => true, :reload => true
     action :nothing
   end
+
+  # Evaluate plugin attributes
+  if new_resource.plugin_data.empty? 
+    puts "No plugins are present"
+  else
+    puts "Dumping available plugin data: #{new_resource.plugin_data}"
+  end
    
   default_sysconfig= new_resource.default_sysconfig.merge(new_resource.override_sysconfig)
   default_sysconfig['CONF_DIR']=new_resource.config_path
@@ -51,8 +58,25 @@ action :render do
     notifies :enable,"service[elasticsearch]"
     notifies :restart,"service[elasticsearch]"
   end
-
+  
   default_config = new_resource.default_config.merge(new_resource.override_config)
+  # Handle potential plugin configuration for elasticsearch.yml
+  new_resource.plugin_data.each do |plugin|
+    unless plugin['es_yml_opts'].nil?
+      es_yml_opts = Hash.new.merge!(plugin['es_yml_opts'])
+      [ 'shield.ssl.keystore.password', 'shield.ssl.keystore.key_password' ].each do |keystore_attr|
+        # if the keystore password is empty use the data bag value as an override - if no value is specified anywhere don't add anything on elasticsearch.yml
+        if es_yml_opts[keystore_attr].empty?
+          dbag=plugin['shield_dbag_info'].keys.first
+          dbag_item=plugin['shield_dbag_info'][dbag]
+          es_yml_opts.merge!(keystore_attr => Chef::EncryptedDataBagItem.load(dbag, dbag_item)[keystore_attr])
+        else
+          es_yml_opts.merge!(keystore_attr => es_yml_opts[keystore_attr])
+        end
+      end
+      default_config.merge! es_yml_opts
+    end
+  end
   # Add global attributes
   default_config['cluster.name']=new_resource.cluster_name
   default_config['node.name']=new_resource.node_name
@@ -64,6 +88,7 @@ action :render do
   
   default_config['http.port']=new_resource.http_port
   default_config['transport.tcp.port']=new_resource.transport_port
+
 
   # Generate cluster host list from the data bag input
   es_dbag_key = new_resource.elasticsearch_data_bag_info.keys.first
@@ -120,4 +145,5 @@ def load_current_resource
   @current_resource.override_sysconfig(@new_resource.override_sysconfig)
   @current_resource.default_sysconfig(@new_resource.default_sysconfig)
   @current_resource.override_config(@new_resource.override_config)
+  @current_resource.plugin_data(@new_resource.plugin_data)
 end
