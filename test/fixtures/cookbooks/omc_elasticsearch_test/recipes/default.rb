@@ -38,11 +38,18 @@ omc_elasticsearch_config 'elasticsearch' do
 end
 
 node[:omc_elasticsearch][:plugins].each do |plugin|
+  if plugin['config_opts'].nil? 
+    config_opts = {} 
+  else 
+    config_opts = plugin['config_opts']
+  end
   omc_elasticsearch_plugin plugin['name'] do 
-    action :install
+    action [ :install, :configure ]
     es_home node[:omc_elasticsearch][:install_path]
+    config_path node[:omc_elasticsearch][:config_path]
     uri plugin['uri']
     arguments plugin['arguments']
+    configuration_opts config_opts
   end
 end
 
