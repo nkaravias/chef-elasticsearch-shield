@@ -18,7 +18,7 @@ power_user:
 user:
   indices:
     '*':
-      privileges: read
+      privileges: read, indices:admin/get, indices:admin/mappings/fields/get, indices:data/read/search, indices:data/read/msearch, indices:data/read/field_stats
 
 # Defines the required permissions for transport clients
 transport_client:
