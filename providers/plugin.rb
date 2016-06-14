@@ -27,6 +27,12 @@ action :uninstall do
 end
 
 action :configure do
+
+  service 'elasticsearch' do
+    supports :restart => true, :start => true, :stop => true, :reload => true
+    action :nothing
+  end
+
   config_opts = new_resource.configuration_opts
   if config_opts.empty? 
     puts "plugin #{new_resource.name} has no attribute set for configuration_opts"
@@ -66,6 +72,22 @@ action :configure do
       mode '0644'
       cookbook 'omc_elasticsearch'
     end
+
+    # Install the shield java keystore
+    shield_dbag_info = new_resource.plugin_data.find { |plugin| plugin[:name] == 'shield' }.shield_dbag_info
+    dbag_hash = Chef::EncryptedDataBagItem.load(shield_dbag_info.keys.first, shield_dbag_info[shield_dbag_info.keys.first])
+    if dbag_hash['shield.keystore.base64'].empty? 
+      log "The data bag #{shield_dbag_info} doesn't have a value for shield.keystore.base64 - The keystore will not get created by Chef"
+    else
+      file 'Shield java keystore' do
+        path ::File.join(new_resource.config_path, 'shield', 'server.keystore')
+        owner new_resource.user
+        group new_resource.group
+        content(Base64.decode64(dbag_hash['shield.keystore.base64']))
+        notifies :restart, 'service[elasticsearch]'
+      end
+    end
+
   end
 end
 

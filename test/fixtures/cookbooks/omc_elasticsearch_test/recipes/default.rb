@@ -47,6 +47,7 @@ node[:omc_elasticsearch][:plugins].each do |plugin|
     action [ :install, :configure ]
     es_home node[:omc_elasticsearch][:install_path]
     config_path node[:omc_elasticsearch][:config_path]
+    plugin_data node[:omc_elasticsearch][:plugins]
     uri plugin['uri']
     arguments plugin['arguments']
     configuration_opts config_opts
