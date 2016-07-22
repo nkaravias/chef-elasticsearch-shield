@@ -54,7 +54,8 @@ action :configure do
       cookbook 'omc_elasticsearch'
       variables(:role_mappings => mappings)
     end
-
+    
+    role_obj = Chef::DataBagItem.load('shield_roles', 'localdev')
     template "shield roles configuration" do
       path ::File.join(new_resource.config_path, 'shield', 'roles.yml')
       source 'plugins/shield/roles.yml.erb'
@@ -62,6 +63,7 @@ action :configure do
       group new_resource.group
       mode '0644'
       cookbook 'omc_elasticsearch'
+      variables(:args => role_obj)
     end
 
     template "shield logging configuration" do
