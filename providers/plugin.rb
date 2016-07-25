@@ -55,16 +55,32 @@ action :configure do
       variables(:role_mappings => mappings)
     end
     
-    role_obj = Chef::DataBagItem.load('shield_roles', 'localdev')
-    template "shield roles configuration" do
-      path ::File.join(new_resource.config_path, 'shield', 'roles.yml')
-      source 'plugins/shield/roles.yml.erb'
-      owner new_resource.user
-      group new_resource.group
-      mode '0644'
-      cookbook 'omc_elasticsearch'
-      variables(:args => role_obj)
-    end
+    shield_parameters = new_resource.plugin_data.find { |plugin| plugin[:name] == 'shield' }
+    shield_roles_dbag_info = shield_parameters['shield_roles_dbag_info']
+    # If shield is used then the shield_roles_dbag_info hash needs to exist
+    # If that hash is empty then use the default template
+    if shield_roles_dbag_info.empty?
+      template "shield roles default configuration" do
+	path ::File.join(new_resource.config_path, 'shield', 'roles.yml')
+	source 'plugins/shield/roles.default.yml.erb'
+	owner new_resource.user
+	group new_resource.group
+	mode '0644'
+	cookbook 'omc_elasticsearch'
+      end
+    # If it's pointing to a data bag then load the roles from that databag
+    else
+      dbag_hash = Chef::DataBagItem.load(shield_roles_dbag_info.keys.first, shield_roles_dbag_info[shield_roles_dbag_info.keys.first])
+      template "shield roles configuration" do
+	path ::File.join(new_resource.config_path, 'shield', 'roles.yml')
+	source 'plugins/shield/roles.yml.erb'
+	owner new_resource.user
+	group new_resource.group
+	mode '0644'
+	cookbook 'omc_elasticsearch'
+	variables(:args => dbag_hash['roles'])
+      end
+    end 
 
     template "shield logging configuration" do
       path ::File.join(new_resource.config_path, 'shield', 'logging.yml')
@@ -76,7 +92,7 @@ action :configure do
     end
 
     # Install the shield java keystore
-    shield_dbag_info = new_resource.plugin_data.find { |plugin| plugin[:name] == 'shield' }.shield_dbag_info
+    shield_dbag_info = shield_parameters['shield_dbag_info']
     dbag_hash = Chef::EncryptedDataBagItem.load(shield_dbag_info.keys.first, shield_dbag_info[shield_dbag_info.keys.first])
     if dbag_hash['shield.keystore.base64'].empty? 
       log "The data bag #{shield_dbag_info} doesn't have a value for shield.keystore.base64 - The keystore will not get created by Chef"

@@ -40,6 +40,53 @@ Short breakdown of the hosts hash contents and usage:
   </tr>
 </table>
 
+For the shield plugin the following structure is required:
+
+            {
+               "name":"shield",
+               "uri":"shield",
+               "arguments":{
+                  "DproxyHost":"www-proxy.us.oracle.com",
+                  "DproxyPort":"80",
+                  "-verbose":""
+               },
+               "shield_dbag_info":{
+                  "passwords":"slapchop_localdev"
+               },
+               "shield_roles_dbag_info": {
+                  "shield_roles":"localdev"   #### if the key:value pair is present the role mappings from the databag will get rendered in roles.yml. Otherwise the default template will get used. The hash attribute is mandatory (even if empty)
+               },
+               "es_yml_opts":{
+                  "#shield.authc.realms.active_directory.type":"active_directory",
+                  "#shield.authc.realms.active_directory.order":0,
+                  "#shield.authc.realms.active_directory.domain_name":"elqrd.local",
+                  "#shield.authc.realms.active_directory.url":"ldap://ad01-den3.elqrd.local:389",
+                  "shield.ssl.keystore.path":"shield/server.keystore",
+                  "shield.ssl.hostname_verification":false,
+                  "shield.ssl.keystore.password":"",
+                  "shield.ssl.keystore.key_password":"",
+                  "shield.transport.ssl":true,
+                  "shield.http.ssl":true,
+                  "shield.enabled":true
+               },
+               "config_opts":{
+                  "role_mapping":{
+                     "mappings":{
+                        "admin":[
+                           "cn=res-q01p02-slc-es-admin,ou=Resource Groups,ou=Eloqua Users,dc=elqrd,dc=local"
+                        ],
+                       "power_user":[
+                           "cn=res-q01p02-slc-es-rw,ou=Resource Groups,ou=Eloqua Users,dc=elqrd,dc=local"
+                        ],
+                       "user":[
+                           "cn=res-q01p02-slc-es-ro,ou=Resource Groups,ou=Eloqua Users,dc=elqrd,dc=local"
+                       ]
+                    }
+                 }
+              }
+            }
+
+
 ## Attributes
 
 There are no attributes on a library cookbook. The following resource attributes can get overridden by a wrapper cookbook or an environment / role:

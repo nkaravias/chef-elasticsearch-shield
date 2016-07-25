@@ -82,6 +82,9 @@
                "shield_dbag_info":{
                   "passwords":"slapchop_localdev"
                },
+               "shield_roles_dbag_info": {
+                  "shield_roles":"localdev"
+               },
                "es_yml_opts":{
                   "#shield.authc.realms.active_directory.type":"active_directory",
                   "#shield.authc.realms.active_directory.order":0,
