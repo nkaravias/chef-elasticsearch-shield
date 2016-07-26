@@ -1,5 +1,7 @@
 <%-require 'yaml' %>
-<%=@args.to_yaml %>
+<% res = @args.to_yaml.lines.to_a.drop(1) %>
+<% res.map!{ |item| item[2..-1]} %>
+<%= res.join() %>
 # All cluster rights
 # All operations on all indices
 #admin:

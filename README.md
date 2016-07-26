@@ -158,7 +158,7 @@ Check omc_elasticsearch::default for an example use case that creates and config
 
 ## Contributing
 
-1. Create a named feature branch (adding any relevant Jira ID as a prefix is the recommended approach).If you do not have access reach out to the OMC Eloqua DevOps team at erd_devops_us_grp@oracle.com
+1. Create a named feature branch (adding any relevant Jira ID as a prefix is the recommended approach)
 2. Write your change
 3. Write tests for your change (Unit / Integration if applicable)
 4. Run the tests, ensuring they all pass

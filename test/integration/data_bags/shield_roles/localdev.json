@@ -58,6 +58,9 @@
   "logstash": {
     "cluster": "indices:admin/template/get, indices:admin/template/put",
     "indices": {
+      "applog-*": {
+        "privileges": "indices:admin/mappings/fields/get, indices:admin/validate/query, indices:data/read/search, indices:data/read/msearch, indices:data/read/field_stats, indices:admin/get"
+      },
       "logstash-*": {
         "privileges": "indices:data/write/bulk, indices:data/write/delete, indices:data/write/update, indices:data/read/search, indices:data/read/scroll, create_index"
       }
